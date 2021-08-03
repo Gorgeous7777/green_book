@@ -1,20 +1,21 @@
-<ul>
+<ul class="list-group">
+    <li class="list-group-item disabled" aria-disabled="true">Categories</li>
     {% if categories %}
         {% for c in categories %}
             {% if c == current_category %}
-                <li>
+                <li class="list-group-item">
                     <strong>
                         <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
                     </strong>
                 </li>
             {% else %}
-                <li>
+                <li class="list-group-item">
                     <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
                 </li>
             {% endif %}
         {% endfor %}
 
     {% else %}
-        <li><strong>There are no categories present.</strong></li>
+        <li class="list-group-item"><strong>There are no categories present.</strong></li>
     {% endif %}
 </ul>

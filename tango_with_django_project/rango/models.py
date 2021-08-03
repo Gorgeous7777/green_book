@@ -2,6 +2,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -33,10 +34,31 @@ class Category(models.Model):
 class Page(models.Model):
     TITLE_MAX_LENGTH = 128
     URL_MAX_LENGTH = 200
+
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=TITLE_MAX_LENGTH)
     url = models.URLField()
     views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    is_show = models.BooleanField(default=1, choices=((0, 'delete'), (1, 'show')))
+    image = models.ImageField(upload_to='page_images', blank=True)
+    time = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = 'Pages'
 
     def __str__(self):
         return self.title
+
+
+class Commit(models.Model):
+    COMMENT_MAX_LENGTH = 150
+
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time = models.DateTimeField(auto_now_add=True)
+    comment = models.CharField(max_length=COMMENT_MAX_LENGTH)
+
+    def __str__(self):
+        return self.comment
