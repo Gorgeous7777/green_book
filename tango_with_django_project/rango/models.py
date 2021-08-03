@@ -41,7 +41,7 @@ class Page(models.Model):
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     is_show = models.BooleanField(default=1, choices=((0, 'delete'), (1, 'show')))
-    image = models.ImageField(upload_to='page_images', blank=True)
+    image = models.ImageField(upload_to='page_images')
     time = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 

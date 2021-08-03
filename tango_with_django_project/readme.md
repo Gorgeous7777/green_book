@@ -1,11 +1,17 @@
 ### Deployment project
 ```shell
+git clone https://github.com/Gorgeous7777/green_book.git
+cd green_book
+virtualenv venv  (create venv)
+
 # source venv\bin\active    (linux/mac)
 # venv\bin\active    (windows)
 
-pip install -r requirements.txt
+(venv):pip install -r requirements.txt
 
-python manage.py migrate
+(venv):python manage.py migrate
+
+(venv):python manage.py runserver 127.0.0.1:8000
 
 # add data,only categorized data will be added. (populate_rango.py:Cancel the addition of page data. Because we modified the model, this script cannot add page data)
 python populate_rango.py
@@ -62,4 +68,12 @@ https://v4.bootcss.com/docs/getting-started/introduction/
             <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat."/>
         </div>
     {% endblock %}
+    ```
+    
+### Don't do
+1. New push, do not submit to the `master` branch.(This is the first step in team development.)
+    ```shell
+    + You should submit to a new branch, such as `dev_by_wangtuo`.
+    + To merge the code, you need to submit a `merge` request.
+    + How to add a new branch? You can find related buttons in pycharm.Or find related commands in google.
     ```
