@@ -70,10 +70,11 @@ https://v4.bootcss.com/docs/getting-started/introduction/
     {% endblock %}
     ```
     
-### Don't do
+### Notice
 1. New push, do not submit to the `master` branch.(This is the first step in team development.)
     ```shell
     + You should submit to a new branch, such as `dev_by_wangtuo`.
     + To merge the code, you need to submit a `merge` request.
     + How to add a new branch? You can find related buttons in pycharm.Or find related commands in google.
     ```
+2. Before writing new code, you should update the code first, for example: `git pull`. (During your break, other people will modify the code. Otherwise, there will be unexpected troubles)
