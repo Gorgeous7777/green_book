@@ -1,0 +1,57 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Register
+{% endblock %}
+
+{% block content_block %}
+    <div class="container">
+        <style>
+            .form-account{
+                max-width: 450px;
+                padding: 15px;
+                margin: 0 auto;
+            }
+            .form-inline label {
+                width: 30%;
+                display: block;
+                text-align: left;
+                font-size: 18px;
+            }
+
+            .form-inline input {
+                width: 70%;
+            }
+
+            .errorlist {
+                color: red;
+            }
+            .help{
+                font-size: 14px;
+                color: #e0af41;
+            }
+        </style>
+    {% if registered %}
+        <strong>Thank you for registering!</strong>
+        <a href="{% url 'account:login' %}">Return to the loginpage.</a>
+    {% else %}
+        <form class="form-account" method="post">
+            {% csrf_token %}
+            <h2 class="form-account-heading text-center">Register</h2>
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <div class="form-inline form-group d-flex justify-content-between">
+                    {{ field.label_tag }} {{ field }}
+                </div>
+                {% if field.help_text %}
+                        <span class="help">{{ field.help_text|safe }}</span>
+                {% endif %}
+                {{ field.errors }}
+            {% endfor %}
+            <button class="btn btn-sm btn-outline-primary btn-block" type="submit">Register</button>
+            <p>Existing account？Click here<a href="{% url 'account:login' %}">Login</a></p>
+        </form>
+    {% endif %}
+    </div> <!-- /container -->
+{% endblock %}

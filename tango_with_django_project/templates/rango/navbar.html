@@ -17,7 +17,7 @@
                 <a class="nav-link text-white" href="#">Categories</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">About</a>
+                <a class="nav-link text-white" href="{% url 'rango:about' %}">About</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -33,15 +33,17 @@
                         User，{{ request.user.email }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 100px;">
-                        <a class="dropdown-item" href="#">Account</a>
-                        <a class="dropdown-item" href="#">Site Message{% if unread_count %}<span class="badge badge-danger">{{ unread_count }}</span>
-            {% endif %}</a>
+                        <a class="dropdown-item" href="{% url 'account:index' %}">Account</a>
+                        <a class="dropdown-item" href="#">Manage Pages</a>
+                        <a class="dropdown-item" href="#">Site Message{% if unread_count %}<span class="badge badge-danger">{{ unread_count }}</span></a>
+            {% endif %}
+
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a>
                     </div>
                 </li>
             {% else %}
-                <a class="nav-link text-white" href="{% url 'rango:logout' %}">Login</a>
+                <a class="nav-link text-white" href="{% url 'account:login' %}">Login</a>
             {% endif %}
         </ul>
     </div>

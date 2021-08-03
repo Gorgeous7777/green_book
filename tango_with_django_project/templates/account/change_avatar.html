@@ -1,0 +1,33 @@
+{% extends 'rango/base.html' %}
+{% block title %}
+    <title>Change Avatar</title>
+{% endblock %}
+{% block nav %}
+{% endblock %}
+{% block content_block %}
+    <div class="container">
+        <div class="card shadow mt-2">
+            <div class="card-body">
+                <div class="text-center">
+                    <h5>Current avatar</h5>
+                    <img class="img-thumbnail" src="{{ MEDIA_URL }}{{ request.user.userprofile.picture }}">
+                </div>
+                <form enctype="multipart/form-data" method="post" action="{% url 'account:change_avatar' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="avatar">Upload new images</label>
+                        <input type="file" class="form-control-file" name="avatar" id="avatar">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <div class="col-12 d-flex justify-content-center flex-wrap">
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Login
+{% endblock %}
+
+{% block content_block %}
+    <div class="container">
+        <style>
+            .form-account{
+                max-width: 450px;
+                padding: 15px;
+                margin: 0 auto;
+            }
+
+            .form-inline label {
+                width: 20%;
+                display: block;
+                text-align: left;
+            }
+
+            .form-inline input {
+                width: 80%;
+            }
+
+            .errorlist {
+                color: red;
+            }
+
+            #id_captcha_1 {
+                width: 150px;
+                margin-right: 10px;
+            }
+        </style>
+        {% if request.user.is_active %}
+        <h4 class="text-warning text-center">You are logged in</h4>
+        {% else %}
+        <form class="form-account" method="post">
+            {% csrf_token %}
+            <h2 class="form-account-heading text-center">Login</h2>
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <div class="form-group form-inline{% if field.name != 'captcha' %} d-flex justify-content-between{% endif %}">
+                    {{ field.label_tag }} {{ field }}
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                    <p>{{ field.errors }}</p>
+                </div>
+            {% endfor %}
+            <button class="btn btn-sm btn-outline-primary btn-block" type="submit">Submit</button>
+            <a class="btn btn-sm btn-block btn-outline-success" href="{% url 'account:register' %}"
+               role="button">Sign up? Click here</a>
+        </form>
+        {% endif %}
+
+    </div> <!-- /container -->
+{% endblock %}

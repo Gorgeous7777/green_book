@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rango',
+    'account',
     'notifications',
 ]
 
@@ -138,7 +139,8 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 )
 
-LOGIN_URL = 'rango:login'
+LOGIN_URL = 'account:login'
+LOGIN_REDIRECT_URL = 'rango:index'
 
 # simple_ui's config
 SIMPLEUI_STATIC_OFFLINE = True    # Use offline static resources

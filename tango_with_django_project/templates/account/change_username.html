@@ -1,0 +1,27 @@
+{% extends 'rango/base.html' %}
+{% block title %}
+    <title>Change Username</title>
+{% endblock %}
+{% block nav %}
+{% endblock %}
+{% block content_block %}
+    <div class="container">
+        <div class="card shadow mt-2">
+            <div class="card-body">
+                <form enctype="multipart/form-data" method="post" action="{% url 'account:change_username' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">New Username</label>
+                        <input type="text" class="form-control-file" name="username" id="username">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <div class="col-12 d-flex justify-content-center flex-wrap">
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

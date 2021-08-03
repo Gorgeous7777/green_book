@@ -1,0 +1,108 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Account
+{% endblock %}
+
+{% block content_block %}
+    <div class="container">
+        <div class="card shadow mt-2">
+            <div class="card-body">
+                <h4 class="text-center" style="margin-bottom: 20px;">Information</h4>
+                <div class="row">
+                    <div class="col-md-6 d-flex justify-content-center border-right">
+                        <div class="d-flex justify-content-center flex-column text-center">
+                            <img style="margin: auto" width="80" height="80"
+                                 src="{{ MEDIA_URL }}{{ request.user.userprofile.picture }}" alt="xxx">
+                            <span class="text-primary">Email: {{ request.user.email }}</span>
+                            <button class="btn btn-primary btn-sm" onclick="changeAvatar()">Change Avatar</button>
+                            <span>Create Time: {{ request.user.date_joined|date:"Y-m-d H:i" }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column">
+                        <div class="d-flex justify-content-center flex-column text-center">
+                            <div class="d-flex flex-column text-left">
+
+                                <p>User Name：<span>{% if request.user.username %}
+                                    {{ request.user.username }}
+                                {% else %}
+                                    Not set
+                                {% endif %}</span>
+                                    <span class="text-primary ml-3 mt-2" onclick="changeUsername()"
+                                          style="cursor: pointer">Change</span>
+                                </p>
+                                <p>Password：
+                                    <span class="text-primary ml-3 mt-2" onclick="changePassword()"
+                                          style="cursor: pointer">Change</span>
+                                </p>
+                                <p><a class="text-primary mt-2" href="#">Manage My Pages</a>
+                                </p>
+                                <p><a class="text-primary mt-2" href="#">My Site Message</a>
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <!-- pop up plugins layer -->
+    <script src="{% static 'layer/layer.js' %}"></script>
+    <script>
+        function changePassword() {
+            layer.open({
+                type: 2,
+                shade: 0.1,
+                //btnAlign: 'c',
+                area: ['850px', '510px'], //width,height
+                title: 'Change Password',//title
+                content: "{% url 'account:change_password' %}", //url
+                btn: 'Close',
+                load: false,
+                yes: function (index) { //success
+                    layer.close(index);
+                    window.location.reload()
+                },
+            });
+        }
+
+        function changeUsername() {
+            layer.open({
+                type: 2,
+                shade: 0.1,
+                //btnAlign: 'c',
+                area: ['850px', '510px'],
+                title: 'Change Username',
+                content: "{% url 'account:change_username' %}",
+                btn: 'Close',
+                load: false,
+                yes: function (index) {
+                    layer.close(index);
+                    window.location.reload()
+                },
+            });
+        }
+
+        function changeAvatar() {
+            layer.open({
+                type: 2,
+                shade: 0.1,
+                //btnAlign: 'c',
+                area: ['850px', '510px'],
+                title: 'Change avatar',
+                content: "{% url 'account:change_avatar' %}",
+                btn: 'Close',
+                load: false,
+                yes: function (index) {
+                    layer.close(index);
+                    window.location.reload()
+                },
+            });
+        }
+    </script>
+{% endblock %}
