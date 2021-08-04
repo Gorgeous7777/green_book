@@ -1,12 +1,15 @@
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views import View
+from notifications.base.models import NotificationQuerySet
+from notifications.signals import notify
 
-from account.forms import RegisterForm, UserProfileForm, PageForm
+from account.forms import RegisterForm, UserProfileForm, PageForm, SiteMessageForm
 from rango import models as rango_models
 
 
@@ -133,3 +136,56 @@ class DeletePage(LoginRequiredMixin, View):
             res["result"] = "The requested data does not exist"
 
         return HttpResponse(json.dumps(res), content_type='application/json')
+
+
+
+class NotificationQuerySetNew(NotificationQuerySet):
+    def sent_all(self, sender_instance):
+        return self.exclude(recipient=sender_instance)
+
+
+class SiteMessage(LoginRequiredMixin, View):
+    def get(self,request):
+        site_msg = request.user.notifications
+
+        return render(request, "account/site_message.html",{"site_msg":site_msg,})
+
+
+class SendMessage(LoginRequiredMixin, View):
+    def get(self, request):
+        receiver = request.GET.get("receiver",None)
+        form = SiteMessageForm(initial={'receiver': receiver})
+
+        return render(request,"account/send_message.html",{"form":form})
+
+    def post(self, request):
+        is_send = False
+        form = SiteMessageForm(request.POST)
+        if form.is_valid():
+            try:
+                recevicer = User.objects.get(email=form.cleaned_data["receiver"])
+                print(recevicer,":recevicer")
+                notify.send(request.user, recipient=recevicer, verb=form.cleaned_data["content"])
+                is_send = True
+            except User.DoesNotExist:
+                pass
+
+        return render(request, "account/send_message.html", {"form": form,"is_send":is_send})
+
+
+class ReadMessage(LoginRequiredMixin, View):
+    def get(self, request):
+        res = dict(result=False)
+        # get unread msg
+        notice_id = request.GET.get('notice_id')
+        # update one msg
+        if notice_id:
+            # article = ArticlePost.objects.get(id=request.GET.get('article_id'))
+            request.user.notifications.get(id=notice_id).mark_as_read()
+            res["result"] = True
+            return HttpResponse(json.dumps(res), content_type='application/json')
+        # update all msg
+        else:
+            request.user.notifications.mark_all_as_read()
+            res["result"] = True
+            return HttpResponse(json.dumps(res), content_type='application/json')

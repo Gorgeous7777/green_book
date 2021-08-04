@@ -21,4 +21,8 @@ urlpatterns = [
     path('add_page/', views.AddPage.as_view(), name='add_page'),
     path('change_page/<int:id>/', views.ChangePage.as_view(), name='change_page'),
     path('delete_page/', views.DeletePage.as_view(), name='delete_page'),
+
+    path('site_message/', views.SiteMessage.as_view(), name='site_message'),
+    path('send_message/', views.SendMessage.as_view(), name='send_message'),
+    path('read_message/', views.ReadMessage.as_view(), name='read_message'),
 ]

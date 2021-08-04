@@ -1,0 +1,90 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Site Message
+{% endblock %}
+
+{% block content_block %}
+    <div class="container">
+        <div class="card shadow mt-2">
+            <div class="card-body">
+                <h4 class="text-center" style="margin-bottom: 20px;">Site Message</h4>
+                <div class="row justify-content-end m-1">
+                    <a class="btn btn-outline-primary" href="{% url 'account:send_message' %}">Send</a>
+                </div>
+                <div class="row flex-column">
+                    <h3 class="text-center text-info">Inbox</h3>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr class="text-center">
+                            <th>#</th>
+                            <th>Sender</th>
+                            <th>Content</th>
+                            <th>Time</th>
+                            <th>Options</th>
+                        </tr>
+                        </thead>
+                        {% if site_msg %}
+                            <tbody>
+                            {% for msg in site_msg.unread %}
+                                <tr class="text-center">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ msg.actor.email }}</td>
+                                    <td>{{ msg.verb }}</td>
+                                    <td>{{ msg.timestamp|date:"Y-m-d H:i" }}</td>
+
+                                    <td style="width: 160px;"><button class="btn btn-sm btn-outline-success mr-1" onclick="update_mail({{ msg.id }})">Read</button>
+                                        <a class="btn btn-sm btn-outline-primary ml-1" href="{% url 'account:send_message' %}?receiver={{ msg.actor.email }}">Receive</a>
+                                </tr>
+                            {% endfor %}
+                            {% for msg in site_msg.read %}
+                                <tr class="text-center">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ msg.actor.email }}</td>
+                                    <td>{{ msg.verb }}</td>
+                                    <td>{{ msg.timestamp|date:"Y-m-d H:i" }}</td>
+
+                                    <td style="width: 160px;">
+                                        <a class="btn btn-sm btn-outline-primary ml-1" href="{% url 'account:send_message' %}?receiver={{ msg.actor.email }}">Receive</a>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function hidePage(page_id) {
+            var check = confirm("Are you sure you want to hide it？ ");
+            if (check) {
+                $.ajax({
+                    url: "{% url 'account:delete_page' %}?id=" + page_id,
+                    type: "GET",
+                    success: function (e) {
+                        alert(e.result);
+                        window.location.reload()
+                    }
+                })
+            }
+        }
+        function update_mail(notify_id) {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'account:read_message' %}?notice_id="+notify_id,
+                cache: false,
+                success: function (msg) {
+                    if (msg.result) {
+                        alert("mark success");
+                        window.location.reload()
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}

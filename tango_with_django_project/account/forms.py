@@ -59,3 +59,22 @@ class PageForm(forms.ModelForm):
     class Meta:
         model = rango_model.Page
         exclude = ("views", "likes", "time", "user")
+
+
+class HaveUserEmailField(forms.EmailField):
+    """
+    An EmailField which only is valid if no User has that email.
+    """
+
+    def validate(self, value):
+        super(forms.EmailField, self).validate(value)
+        try:
+            User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise forms.ValidationError("Does Not Exist Email")
+
+
+class SiteMessageForm(forms.Form):
+    receiver = HaveUserEmailField(required=True, help_text="please input email address")
+    content = forms.CharField(widget=forms.Textarea,required=True)
+

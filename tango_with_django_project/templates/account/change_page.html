@@ -17,42 +17,49 @@
             width: 100%;
             padding: 2px 4px;
         }
-        .help{
+
+        .help {
             color: #ffc12e;
         }
     </style>
     <div class="container mt-4">
-        {% if result %}
-            <strong>Change success! Return to the <a class="btn btn-sm btn-outline-primary" href="{% url 'account:manage_pages' %}">manage page</a> </strong>
+        <div class="card shadow mt-2">
+            <div class="card-body">
+                {% if result %}
+                    <strong>Change success! Return to the <a class="btn btn-sm btn-outline-primary" href="{% url 'account:manage_pages' %}">manage page</a>
+                    </strong>
 
-        {% else %}
-            <form id="addForm" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.non_field_errors }}
-                {% for field in form %}
-                    <div class="form-inline form-group w-100" style="position:relative">
-                        {{ field.label_tag }}
+                {% else %}
+                    <form id="addForm" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        {% for field in form %}
+                            <div class="form-inline form-group w-100" style="position:relative">
+                                {{ field.label_tag }}
 
-                        {{ field }}
-                        {% if field.help_text %}
-                            <span class="help">{{ field.help_text|safe }}</span>
-                        {% endif %}
-                    </div>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <span class="help">{{ field.help_text|safe }}</span>
+                                {% endif %}
+                            </div>
 
 
-                    <div class="text-danger">
-                        {{ field.errors }}
-                    </div>
-                {% endfor %}
-                <div class="d-flex justify-content-center">
-                    <div class="row span7 text-center ">
-                        <button type="reset" class="btn btn-danger mr-2 ">Reset</button>
-                        <button type="submit" class="btn btn-primary ml-2 ">Save</button>
-                    </div>
-                </div>
+                            <div class="text-danger">
+                                {{ field.errors }}
+                            </div>
+                        {% endfor %}
+                        <div class="d-flex justify-content-center">
+                            <div class="row span7 text-center ">
+                                <a type="button" class="btn btn-outline-info mr-2 " href="{% url 'account:manage_pages' %}">Back</a>
+                                <button type="reset" class="btn btn-danger mr-2 ">Reset</button>
+                                <button type="submit" class="btn btn-primary ml-2 ">Save</button>
+                            </div>
+                        </div>
 
-            </form>
-        {% endif %}
+                    </form>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
 {% endblock %}
