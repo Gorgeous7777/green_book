@@ -1,0 +1,54 @@
+{% extends 'rango/base.html' %}
+{% block title %}
+    Add Page
+{% endblock %}
+
+{% block content_block %}
+    <style>
+        label {
+            font-size: 17px;
+            font-weight: bold;
+            width: 100%;
+            justify-content: left !important;
+
+        }
+
+        input, option, textarea {
+            width: 100%;
+            padding: 2px 4px;
+        }
+    </style>
+    <div class="container mt-4">
+        {% if result %}
+            <strong>Add success! Return to the <a class="btn btn-sm btn-outline-primary" href="{% url 'account:manage_pages' %}">manage page</a> or <a class="btn btn-sm btn-outline-primary" href="{% url 'account:add_page' %}">Add another</a></strong>
+
+        {% else %}
+            <form id="addForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    <div class="form-inline form-group w-100" style="position:relative">
+                        {{ field.label_tag }}
+                        {% if field.help_text %}
+                            <span class="help">{{ field.help_text|safe }}</span>
+                        {% endif %}
+                        {{ field }}
+                    </div>
+
+                    <div class="text-danger">
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+                <div class="d-flex justify-content-center">
+                    <div class="row span7 text-center ">
+                        <button type="reset" class="btn btn-danger mr-2 ">Reset</button>
+                        <button type="submit" class="btn btn-primary ml-2 ">Save</button>
+                    </div>
+                </div>
+
+            </form>
+        {% endif %}
+    </div>
+
+{% endblock %}
+

@@ -2,7 +2,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 
-from rango.models import UserProfile
+# from rango.models import UserProfile
+from rango import models as rango_model
 
 
 class MyAuthenticationForm(AuthenticationForm):
@@ -46,5 +47,15 @@ class RegisterForm(UserCreationForm):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = rango_model.UserProfile
         fields = ('website', 'picture',)
+
+
+class PageForm(forms.ModelForm):
+    title = forms.CharField(max_length=rango_model.Page.TITLE_MAX_LENGTH,
+                            help_text="Please enter the title of the page.")
+    url = forms.URLField(max_length=rango_model.Page.URL_MAX_LENGTH, help_text="Please enter the URL of the page.")
+
+    class Meta:
+        model = rango_model.Page
+        exclude = ("views", "likes", "time", "user")

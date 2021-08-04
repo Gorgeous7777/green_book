@@ -14,7 +14,7 @@
                     <div class="col-md-6 d-flex justify-content-center border-right">
                         <div class="d-flex justify-content-center flex-column text-center">
                             <img style="margin: auto" width="80" height="80"
-                                 src="{{ MEDIA_URL }}{{ request.user.userprofile.picture }}" alt="xxx">
+                                 src="{{ MEDIA_URL }}{{ request.user.userprofile.picture }}" alt="not found avatar">
                             <span class="text-primary">Email: {{ request.user.email }}</span>
                             <button class="btn btn-primary btn-sm" onclick="changeAvatar()">Change Avatar</button>
                             <span>Create Time: {{ request.user.date_joined|date:"Y-m-d H:i" }}</span>

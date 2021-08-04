@@ -37,16 +37,18 @@ class Page(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=TITLE_MAX_LENGTH)
+    content = models.TextField(null=True)
     url = models.URLField()
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
-    is_show = models.BooleanField(default=1, choices=((0, 'delete'), (1, 'show')))
+    is_show = models.BooleanField(default=1, choices=((0, 'Hide'), (1, 'Show')), help_text="This field will automatically switch to 'Hide' when you click to modify it, please pay attention to whether you want to modify it")
     image = models.ImageField(upload_to='page_images')
     time = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = 'Pages'
+        ordering = ["-time",]
 
     def __str__(self):
         return self.title

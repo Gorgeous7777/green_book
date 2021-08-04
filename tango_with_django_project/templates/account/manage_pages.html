@@ -1,0 +1,68 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Manage Pages
+{% endblock %}
+
+{% block content_block %}
+    <div class="container">
+        <div class="card shadow mt-2">
+            <div class="card-body">
+                <h4 class="text-center" style="margin-bottom: 20px;">Manage Pages</h4>
+                <div class="row justify-content-end m-1">
+                    <a class="btn btn-outline-primary" href="{% url 'account:add_page' %}">Add</a>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr class="text-center">
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Views</th>
+                            <th>Likes</th>
+                            <th>Time</th>
+                            <th>Is show</th>
+                            <th>Options</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for page in request.user.page_set.all  %}
+                            <tr class="text-center">
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ page.title }}</td>
+                                <td>{{ page.category.name }}</td>
+                                <td>{{ page.views }}</td>
+                                <td>{{ page.likes }}</td>
+                                <td>{{ page.time|date:"Y-m-d H:i" }}</td>
+                                <td style="width: 90px;"><span class="{% if page.is_show %}text-success{% else %} text-danger{% endif %}">{{ page.get_is_show_display }}</span></td>
+
+                                <td style="width: 140px;"><a class="btn btn-sm btn-outline-primary mr-1" href="{% url 'account:change_page' page.id %}">Edit</a>{% if page.is_show %}<button class="btn btn-sm btn-outline-danger ml-1" onclick="hidePage({{ page.id }})">Hide</button>{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function hidePage(page_id) {
+            var check = confirm("Are you sure you want to hide it？ ");
+            if (check) {
+                $.ajax({
+                    url: "{% url 'account:delete_page' %}?id=" + page_id,
+                    type: "GET",
+                    success: function (e) {
+                        alert(e.result);
+                        window.location.reload()
+                    }
+                })
+            }
+        }
+    </script>
+{% endblock %}

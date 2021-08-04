@@ -17,4 +17,8 @@ urlpatterns = [
     path('change_username/', views.ChangeUserNameView.as_view(), name='change_username'),
     path('change/avatar/', views.ChangeAvatarView.as_view(), name='change_avatar'),
 
+    path('manage_pages/', views.ManagePages.as_view(), name='manage_pages'),
+    path('add_page/', views.AddPage.as_view(), name='add_page'),
+    path('change_page/<int:id>/', views.ChangePage.as_view(), name='change_page'),
+    path('delete_page/', views.DeletePage.as_view(), name='delete_page'),
 ]
