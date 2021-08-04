@@ -8,15 +8,16 @@ from django.http import HttpResponse
 from django.urls import reverse
 
 from rango.models import Category
-from rango.models import Page
+from rango.models import Page, Commit
 from rango.forms import CategoryForm
 from rango.forms import PageForm
-from rango.forms import UserForm, UserProfileForm
+from rango.forms import UserForm, UserProfileForm, CommentForm
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse
 
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 
@@ -94,10 +95,8 @@ def index(request):
     context_dict['categories'] = category_list
     context_dict['pages'] = page_list
 
-
     visitor_cookie_handler(request)
-    # context_dict['visits'] = request.session['visits']
-
+    context_dict['visits'] = request.session['visits']
     response = render(request, 'rango/index.html', context=context_dict)
     return response
 
@@ -149,6 +148,44 @@ def show_category(request, category_name_slug):
     return render(request, 'rango/category.html', context=context_dict)
 
 
+def show_page(request, category_name_slug, page_id):
+    # Create a context dictionary which we can pass
+    # to the template rendering engine.
+    user_id = request.user
+    context_dict = {}
+    try:
+        pages = Page.objects.get(id=page_id)
+        print(page_id)
+        category = Category.objects.get(id=pages.category_id)
+        users = User.objects.get(username=user_id)
+        context_dict['pages'] = pages
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        context_dict['category'] = None
+        context_dict['pages'] = None
+
+    if request.method == "POST":
+        if 'add' in request.POST:
+
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comm = form.save(commit=False)
+                comm.user = users
+                comm.page = pages
+                comm.save()
+                return redirect(
+                    reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug, 'page_id': page_id}))
+        if 'like' in request.POST:
+            pages.likes = pages.likes + 1
+            print(pages.likes)
+            pages.save()
+    else:
+        form = CommentForm()
+    context_dict['form'] = form
+    context_dict['ties'] = Commit.objects.filter(page_id=page_id)
+    return render(request, 'rango/page.html', context=context_dict)
+
+
 @login_required
 def add_category(request):
     form = CategoryForm()
@@ -189,3 +226,14 @@ def add_page(request, category_name_slug):
         print(form.errors)
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context=context_dict)
+
+
+def add_like(request,category_name_slug,page_id):
+    pages = Page.objects.get(id=page_id)
+    pages.likes = pages.likes + 1
+    pages.save()
+    print('这里是参数   sssssssss',category_name_slug,page_id)
+
+
+    return redirect(reverse('rango:index'))
+

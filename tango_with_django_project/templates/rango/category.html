@@ -15,15 +15,18 @@
         {% if pages %}
             <ul>
                 {% for page in pages %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                    <li><a href="{% url 'rango:show_page' category.slug page.id %}">{{ page.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
             <strong>No pages currently in category.</strong>
         {% endif %}
+    <div style="text-align:center">
+
         {% if user.is_authenticated %}
-            <a href="{% url 'rango:add_page' category.slug %}">Add Page</a> <br/>
+            <li><a type="button" class="btn btn-primary btn-lg" href="{% url 'account:add_page' %}">Add Page</a></li>
         {% endif %}
+    </div>
     {% else %}
         The specified category does not exist.
     {% endif %}

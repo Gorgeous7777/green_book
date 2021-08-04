@@ -36,7 +36,7 @@
             <ul>
                 {% for page in pages %}
                     <li>
-                        <a href="{{ page.url }}">{{ page.title }}</a>
+                        <a href="{% url 'rango:show_page' page.category.slug page.id %}">{{ page.title }}</a>
                     </li>
                 {% endfor %}
             </ul>

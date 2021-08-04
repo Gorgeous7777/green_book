@@ -1,0 +1,82 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+{% if category %}
+{{ category.name }}
+{% else %}
+Unknown Category
+{% endif %}
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+    <div class="card shadow mt-2">
+        <div class="card-body">
+            <div style="text-align: center">
+                {% if pages %}
+                <h1>{{ pages.title }}</h1>
+                {% else %}
+                <strong>No content in page.</strong>
+                {% endif %}
+                views: {{pages.views}}   likes:{{pages.likes}}
+            </div>
+            <div class="row">
+                <div class="col-md-6 d-flex justify-content-center border-right">
+                    <div class="d-flex justify-content-center flex-column text-left">
+                        {% if pages %}
+                        <br>
+                        <br><strong>Category: {{ pages.category.slug }}</strong></br>
+                        <br><strong>original: <a href='{{ pages.url }}'> {{pages.url}}</a></strong></br>
+                        <br><strong>Content: {{ pages.content }}</strong></br>
+                        {% else %}
+                        <strong>There are no pages present.</strong>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column">
+                    <div class="d-flex justify-content-center flex-column text-center">
+                        <div class="d-flex flex-column text-left">
+                            <img style="margin: auto" width="400" height="400"
+                                 src="{{ MEDIA_URL }}{{ pages.image }}" alt="not found avatar">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form action="." method="post">
+                {% for field in form %}
+                {% csrf_token %}
+                <div>
+                    {{ field.label_tag }}:{{ field }}
+                    {{ field.errors }}
+                    <input type="submit" class="btn btn-primary" value="Submit" name="add">
+                </div>
+                {% endfor %}
+            </form>
+            <hr>
+            {% for tie in ties %}
+            <div>
+                <ul>
+                    <li>{{ tie.user.username }} || {{ tie.user.email }} </li>
+                    <li>Comment: {{ tie.comment }}</li>
+                    <div style="text-align: right">{{ tie.time }}</div>
+
+                </ul>
+                <hr>
+            </div>
+            {% endfor %}
+
+
+            <div style="text-align:center">
+
+                {% if user.is_authenticated %}
+                <li><a type="button" class="btn btn-primary btn-lg" href="{% url 'account:add_page' %}">Add Page</a>
+                </li>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
