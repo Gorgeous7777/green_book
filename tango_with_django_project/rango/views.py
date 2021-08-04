@@ -147,7 +147,7 @@ def show_category(request, category_name_slug):
 
     return render(request, 'rango/category.html', context=context_dict)
 
-
+@login_required
 def show_page(request, category_name_slug, page_id):
     # Create a context dictionary which we can pass
     # to the template rendering engine.
