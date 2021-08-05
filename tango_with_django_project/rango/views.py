@@ -147,6 +147,7 @@ def show_category(request, category_name_slug):
 
     return render(request, 'rango/category.html', context=context_dict)
 
+
 @login_required
 def show_page(request, category_name_slug, page_id):
     # Create a context dictionary which we can pass
@@ -228,14 +229,14 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context=context_dict)
 
 
-def add_like(request,category_name_slug,page_id):
+def add_like(request, category_name_slug, page_id):
     pages = Page.objects.get(id=page_id)
     pages.likes = pages.likes + 1
     pages.save()
-    print('这里是参数   sssssssss',category_name_slug,page_id)
-
+    print('这里是参数   sssssssss', category_name_slug, page_id)
 
     return redirect(reverse('rango:index'))
+
 
 def search(request):
     q = request.GET.get('q')
@@ -247,5 +248,12 @@ def search(request):
 
     post_list = Page.objects.filter(title__icontains=q)
     return render(request, 'rango/search.html', {'error_msg': error_msg,
-                                               'post_list': post_list})
+                                                 'post_list': post_list})
 
+def show_categories(request):
+    context_dict = {}
+    pages = Page.objects.all()
+    categories = Category.objects.all()
+    context_dict['pages'] = pages
+    context_dict['categories'] = categories
+    return render(request, 'rango/show_categories.html', context_dict)

@@ -13,5 +13,6 @@ urlpatterns = [
     path('category/<slug:category_name_slug>/<page_id>/add_like/', views.add_like, name='add_like'),
     path('restricted/', views.restricted, name='restricted'),
     path('search/', views.search, name='search'),
+    path('categories/', views.show_categories, name='show_categories'),
 
 ]

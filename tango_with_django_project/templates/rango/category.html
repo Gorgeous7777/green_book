@@ -2,32 +2,38 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    {% if category %}
-        {{ category.name }}
-    {% else %}
-        Unknown Category
-    {% endif %}
+{% if category %}
+{{ category.name }}
+{% else %}
+Unknown Category
+{% endif %}
 {% endblock %}
 
 {% block body_block %}
-    {% if category %}
-        <h1>{{ category.name }}</h1>
-        {% if pages %}
-            <ul>
-                {% for page in pages %}
-                    <li><a href="{% url 'rango:show_page' category.slug page.id %}">{{ page.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>No pages currently in category.</strong>
-        {% endif %}
-    <div style="text-align:center">
+{% if category %}
+<h1>{{ category.name }}</h1>
+{% if pages %}
+<ul>
+    {% for page in pages %}
+    <li>
+        <a href="{% url 'rango:show_page' page.category.slug page.id %}">{{ page.title }}</a>
+    </li>
+    <li>
+        Author is :{{page.user}} and his/her email is {{page.user.email}}
+    </li>
+    <hr>
+    {% endfor %}
+</ul>
+{% else %}
+<strong>No pages currently in category.</strong>
+{% endif %}
+<div style="text-align:center">
 
-        {% if user.is_authenticated %}
-            <li><a type="button" class="btn btn-primary btn-lg" href="{% url 'account:add_page' %}">Add Page</a></li>
-        {% endif %}
-    </div>
-    {% else %}
-        The specified category does not exist.
+    {% if user.is_authenticated %}
+    <li><a type="button" class="btn btn-primary btn-lg" href="{% url 'account:add_page' %}">Add Page</a></li>
     {% endif %}
+</div>
+{% else %}
+The specified category does not exist.
+{% endif %}
 {% endblock %}
