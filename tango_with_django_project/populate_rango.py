@@ -31,7 +31,7 @@ def populate():
                     'is_show': True,
                     'category_id': 1},]
 
-    cats = {'phonelaptop': {'pages': phonelaptop, 'views': 0, 'likes': 0},
+    cats = {'test2': {'pages': phonelaptop, 'views': 0, 'likes': 0},
             }
 
     # If you want to add more categories or pages,
@@ -42,18 +42,19 @@ def populate():
     #for cat, cat_data in cats.items():
     #    c = add_cat(cat, cat_data["views"], cat_data["likes"])
     for cat, cat_data in cats.items():
-        print(cat_data)
-        for p in cats['pages']:
-            add_page(c, p['title'], p['url'],p['content'],p['is_show'],p['image'],p['user_id'],p['category_id'])
+        c = add_cat(cat, views=cat_data['views'], likes=cat_data['likes'])
+        for p in cat_data['pages']:
+            add_page(c,p['title'], p['url'],p['content'],p['is_show'],p['image'],p['user_id'])
 
     # Print out the categories we have added.
     for c in Category.objects.all():
+
         for p in Page.objects.filter(category=c):
             print(f'- {c}: {p}')
 
 
-def add_page(cat, title, url,content,is_show,image,user_id,category_id):
-    p = Page.objects.get_or_create(category=cat, title=title,url=url,content=content,is_show=is_show,image=image,user_id=user_id,category_id=category_id)[0]
+def add_page( cat,title, url,content,is_show,image,user_id):
+    p = Page.objects.get_or_create(category=cat, title=title,url=url,content=content,is_show=is_show,image=image,user_id=user_id)[0]
     p.save()
     return p
 

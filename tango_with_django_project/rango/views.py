@@ -159,7 +159,10 @@ def show_page(request, category_name_slug, page_id):
     print('askjdhakjsdhkjashdjkashjkdahsjkdhjkashd', get_server_side_cookie(request, 'last_visit'))
     last_visit_cookie = get_server_side_cookie(request, 'last_visit', '2021-08-01 00:00:00.000000')
     last_visit_time = datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
+    last_visit_page_cookie = get_server_side_cookie(request, 'last_page', 0)
     print('askjdhakjsdhkjashdjkashjkdahsjkdhjkashd',last_visit_time)
+    print('askjdhakjsdhkjashdjkashjkdahsjkdhjkashd', last_visit_page_cookie)
+
     user_id = request.user
     context_dict = {}
     try:
@@ -167,9 +170,10 @@ def show_page(request, category_name_slug, page_id):
         print(page_id)
         category = Category.objects.get(id=pages.category_id)
         users = User.objects.get(username=user_id)
-        if (datetime.now() - last_visit_time).days > 0:
+        if ((datetime.now() - last_visit_time).days > 0) | (last_visit_page_cookie != page_id) :
             pages.views = pages.views + 1
             request.session['last_visit'] = str(datetime.now())
+            request.session['last_page'] = page_id
             pages.save()
         context_dict['pages'] = pages
         context_dict['category'] = category
