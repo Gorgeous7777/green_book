@@ -26,6 +26,7 @@ Unknown Category
                     <div class="d-flex justify-content-center flex-column text-left">
                         {% if pages %}
                         <br>
+                        <br><strong>UserName is : {{ pages.user }} and User Email is : {{ pages.user.email }}</strong></br>
                         <br><strong>Category: {{ pages.category.slug }}</strong></br>
                         <br><strong>original: <a href='{{ pages.url }}'> {{pages.url}}</a></strong></br>
                         <br><strong>Content: {{ pages.content }}</strong></br>
