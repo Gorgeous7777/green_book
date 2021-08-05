@@ -2,19 +2,34 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    About Rango
+    About us
 {% endblock %}
 
 {% block content_block %}
-    <p>Visits: {{ visits }}</p>
-    <h1>Rango says...</h1>
-    <div>here is the about page.</div>
-    <div>
-        <strong>This tutorial has been put together by wangtuo</strong><br/>
+    <div class="text-center">
+        <div style="position: relative">
+            <img src="{% static 'images/aboutbg.jpg' %}" alt="About Us" width="1200px"/>
+                <div style="position:absolute;z-indent:2;left:640px;top:220px;font-size: 50px;color: #ffffff">
+                    <strong>About us</strong>
+                </div>
+        </div>
+     </div>
+
+
+    <h1 class="text-center" style="margin: 2em 0em 2em 0em">What is Green Book </h1>
+        <div class="text-center" style="font-size: large;line-height: 2em">
+            <strong>The Green Book is a lifestyle platform for young people, founded by Team Good Job. </br>
+            The Green Book takes "Inspire Lives to share and discover the wonders of the world" as its mission. </br>
+             Users can record life details through pictures and texts, share lifestyles, and form interactions based on interests.</strong><br/>
+         </div>
+     <div class="text-center" style="margin: 2em 0em 2em 0em">
+         <img src="{% static 'images/about_1.jpg' %}" alt="Picture of About1"/>
+     </div>
+     <h1 class="text-center" style="margin: 2em 0em 2em 0em">About Our Group</h1>
+    <div class="text-md-center" style="font-size: large;line-height: 2em; white-space: pre">
+        <strong>Team Name: Team Good Job</br>Team Number:</br>2512201Y       Zhenhua Yang</br>2538846W     Tuo            Wang</br>2516125G       Xinlu         Guo</br>2512193X       Hengbo   Xiao</br>
+        </strong>
     </div>
 
-    <div>
-        <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango"/>
-        <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat."/>
-    </div>
+
 {% endblock %}
