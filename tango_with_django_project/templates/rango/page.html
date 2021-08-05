@@ -1,0 +1,102 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+{% if category %}
+{{ category.name }}
+{% else %}
+Unknown Category
+{% endif %}
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+    <div class="card shadow mt-2">
+        <div class="card-body">
+            <div style="text-align: center">
+                {% if pages %}
+                <h1>{{ pages.title }}</h1>
+                {% else %}
+                <strong>No content in page.</strong>
+                {% endif %}
+                views: {{pages.views}}   <button class="btn btn-sm btn-success ml-1" onclick="hidePage({{ pages.id }})">Like</button>:{{pages.likes}}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 d-flex justify-content-center border-right">
+                    <div class="d-flex justify-content-center flex-column text-left">
+                        {% if pages %}
+
+                        <strong>Author Name: {{ pages.user }}</strong>
+                        <strong>Author Email: {{ pages.user.email }}</strong>
+                        <strong>Category: {{ pages.category.slug }}</strong>
+                        <a>original: <a href='{{ pages.url }}'> {{pages.url}}</a></a>
+                        <br><strong>Content: {{ pages.content }}</strong></br>
+                        {% else %}
+                        <strong>There are no pages present.</strong>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column">
+                    <div class="d-flex justify-content-center flex-column text-center">
+                        <div class="d-flex flex-column text-left">
+                            <img style="margin: auto" width="400" height="400"
+                                 src="{{ MEDIA_URL }}{{ pages.image }}" alt="not found avatar">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form action="." method="post">
+                {% for field in form %}
+                {% csrf_token %}
+                <div>
+                    {{ field.label_tag }}:{{ field }}
+                    {{ field.errors }}
+                    <input type="submit" class="btn btn-primary" value="Submit" name="add">
+                </div>
+                {% endfor %}
+            </form>
+            <hr>
+            {% for tie in ties %}
+            <div>
+                <ul>
+                    <li>{{ tie.user.username }} || {{ tie.user.email }} </li>
+                    <li>Comment: {{ tie.comment }}</li>
+                    <div style="text-align: right">{{ tie.time }}</div>
+
+                </ul>
+                <hr>
+            </div>
+            {% endfor %}
+
+
+            <div style="text-align:center">
+
+                {% if user.is_authenticated %}
+                <li><a type="button" class="btn btn-primary btn-lg" href="{% url 'account:add_page' %}">Add Page</a>
+                </li>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+    <script>
+        function hidePage(page_id) {
+            var check = confirm("Are you sure you want to Like it？ ");
+            if (check) {
+                $.ajax({
+                    url: "{% url 'rango:add_like' %}?id=" + page_id,
+                    type: "GET",
+                    success: function (e) {
+                        alert(e.result);
+                        window.location.reload()
+                    }
+                })
+            }
+        }
+    </script>
+{% endblock %}

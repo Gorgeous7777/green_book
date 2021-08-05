@@ -1,0 +1,31 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+{% if category %}
+{{ category.name }}
+{% else %}
+Unknown Category
+{% endif %}
+{% endblock %}
+
+{% block body_block %}
+{% if error_msg %}
+<p>{{ error_msg }}</p>
+{% endif %}
+
+{% for page in post_list %}
+<h3>{{page.category}}</h3>
+<li>
+    <a href="{% url 'rango:show_page' page.category.slug page.id %}">{{ page.title }}</a>
+</li>
+<li>
+    Author is :{{page.user}} and his/her email is {{page.user.email}}
+</li>
+
+
+<hr>
+{% empty %}
+<div class="no-post">There is no Item Content！</div>
+{% endfor %}
+{% endblock %}

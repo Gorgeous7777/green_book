@@ -1,20 +1,21 @@
 from django import forms
 from rango.models import Page, Category
 from django.contrib.auth.models import User
-from rango.models import UserProfile
+from rango.models import UserProfile, Commit
 
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = User
         fields = ('username', 'email', 'password',)
+
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('website', 'picture',)
-
 
 
 class CategoryForm(forms.ModelForm):
@@ -48,3 +49,11 @@ class PageForm(forms.ModelForm):
             url = f'http://{url}'
             cleaned_data['url'] = url
             return cleaned_data
+
+
+class CommentForm(forms.ModelForm):
+    comment = forms.CharField(max_length=150)
+
+    class Meta:
+        model = Commit
+        exclude = ('user', 'page',)
