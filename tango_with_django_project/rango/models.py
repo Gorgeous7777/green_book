@@ -50,6 +50,7 @@ class Page(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
+        super(Page, self).save(*args, **kwargs)
         if self.content is None:
             self.content = 'you must type something'
 
