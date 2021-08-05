@@ -14,5 +14,5 @@ urlpatterns = [
     path('restricted/', views.restricted, name='restricted'),
     path('search/', views.search, name='search'),
     path('categories/', views.show_categories, name='show_categories'),
-
+    path('add_like/', views.add_like.as_view(), name='add_like'),
 ]

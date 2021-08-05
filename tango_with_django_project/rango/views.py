@@ -1,11 +1,14 @@
+import json
 from datetime import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.shortcuts import redirect
 
 # Create your views here.
 from django.http import HttpResponse
 from django.urls import reverse
+from django.views import View
 
 from rango.models import Category
 from rango.models import Page, Commit
@@ -159,6 +162,8 @@ def show_page(request, category_name_slug, page_id):
         print(page_id)
         category = Category.objects.get(id=pages.category_id)
         users = User.objects.get(username=user_id)
+        pages.views = pages.views+1
+        pages.save()
         context_dict['pages'] = pages
         context_dict['category'] = category
     except Category.DoesNotExist:
@@ -229,13 +234,19 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context=context_dict)
 
 
-def add_like(request, category_name_slug, page_id):
-    pages = Page.objects.get(id=page_id)
-    pages.likes = pages.likes + 1
-    pages.save()
-    print('这里是参数   sssssssss', category_name_slug, page_id)
+class add_like(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        id = request.GET.get("id", None)
+        res = dict(result="Like success")
 
-    return redirect(reverse('rango:index'))
+        try:
+            page_obj = Page.objects.get(id=id)
+            page_obj.likes = page_obj.likes+1
+            page_obj.save()
+        except Page.DoesNotExist:
+            res["result"] = "The requested data does not exist"
+
+        return HttpResponse(json.dumps(res), content_type='application/json')
 
 
 def search(request):

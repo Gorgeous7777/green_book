@@ -19,16 +19,18 @@ Unknown Category
                 {% else %}
                 <strong>No content in page.</strong>
                 {% endif %}
-                views: {{pages.views}}   likes:{{pages.likes}}
+                views: {{pages.views}}   <button class="btn btn-sm btn-success ml-1" onclick="hidePage({{ pages.id }})">Like</button>:{{pages.likes}}
             </div>
+
             <div class="row">
                 <div class="col-md-6 d-flex justify-content-center border-right">
                     <div class="d-flex justify-content-center flex-column text-left">
                         {% if pages %}
-                        <br>
-                        <br><strong>UserName is : {{ pages.user }} and User Email is : {{ pages.user.email }}</strong></br>
-                        <br><strong>Category: {{ pages.category.slug }}</strong></br>
-                        <br><strong>original: <a href='{{ pages.url }}'> {{pages.url}}</a></strong></br>
+
+                        <strong>Author Name: {{ pages.user }}</strong>
+                        <strong>Author Email: {{ pages.user.email }}</strong>
+                        <strong>Category: {{ pages.category.slug }}</strong>
+                        <a>original: <a href='{{ pages.url }}'> {{pages.url}}</a></a>
                         <br><strong>Content: {{ pages.content }}</strong></br>
                         {% else %}
                         <strong>There are no pages present.</strong>
@@ -80,4 +82,21 @@ Unknown Category
         </div>
     </div>
 </div>
+{% endblock %}
+{% block js %}
+    <script>
+        function hidePage(page_id) {
+            var check = confirm("Are you sure you want to Like it？ ");
+            if (check) {
+                $.ajax({
+                    url: "{% url 'rango:add_like' %}?id=" + page_id,
+                    type: "GET",
+                    success: function (e) {
+                        alert(e.result);
+                        window.location.reload()
+                    }
+                })
+            }
+        }
+    </script>
 {% endblock %}
