@@ -4,35 +4,31 @@
 {% block title_block %}
     Login
 {% endblock %}
+{% block css %}
+    <style>
+        .form-account {
+            max-width: 450px;
+            padding: 15px;
+            margin: 0 auto;
+        }
 
+        .form-inline label {
+            width: 20%;
+            display: block;
+            text-align: left;
+        }
+
+        .form-inline input {
+            width: 80%;
+        }
+
+        .errorlist {
+            color: red;
+        }
+    </style>
+{% endblock %}
 {% block content_block %}
     <div class="container">
-        <style>
-            .form-account{
-                max-width: 450px;
-                padding: 15px;
-                margin: 0 auto;
-            }
-
-            .form-inline label {
-                width: 20%;
-                display: block;
-                text-align: left;
-            }
-
-            .form-inline input {
-                width: 80%;
-            }
-
-            .errorlist {
-                color: red;
-            }
-
-            #id_captcha_1 {
-                width: 150px;
-                margin-right: 10px;
-            }
-        </style>
         {% if request.user.is_active %}
         <h4 class="text-warning text-center">You are logged in</h4>
         {% else %}

@@ -4,12 +4,22 @@
 {% block title_block %}
     Manage Pages
 {% endblock %}
+{% block css %}
+    <style>
+        .td-is-show{
+            width: 90px;
+        }
+        .td-options{
+            width: 140px;
+        }
+    </style>
+{% endblock %}
 
 {% block content_block %}
     <div class="container">
         <div class="card shadow mt-2">
             <div class="card-body">
-                <h4 class="text-center" style="margin-bottom: 20px;">Manage Pages</h4>
+                <h4 class="text-center mb-4">Manage Pages</h4>
                 <div class="row justify-content-end m-1">
                     <a class="btn btn-outline-primary" href="{% url 'account:add_page' %}">Add</a>
                 </div>
@@ -36,9 +46,9 @@
                                 <td>{{ page.views }}</td>
                                 <td>{{ page.likes }}</td>
                                 <td>{{ page.time|date:"Y-m-d H:i" }}</td>
-                                <td style="width: 90px;"><span class="{% if page.is_show %}text-success{% else %} text-danger{% endif %}">{{ page.get_is_show_display }}</span></td>
+                                <td class="td-is-show"><span class="{% if page.is_show %}text-success{% else %} text-danger{% endif %}">{{ page.get_is_show_display }}</span></td>
 
-                                <td style="width: 140px;"><a class="btn btn-sm btn-outline-primary mr-1" href="{% url 'account:change_page' page.id %}">Edit</a>{% if page.is_show %}<button class="btn btn-sm btn-outline-danger ml-1" onclick="hidePage({{ page.id }})">Hide</button>{% endif %}</td>
+                                <td class="td-options"><a class="btn btn-sm btn-outline-primary mr-1" href="{% url 'account:change_page' page.id %}">Edit</a>{% if page.is_show %}<button class="btn btn-sm btn-outline-danger ml-1" onclick="hidePage({{ page.id }})">Hide</button>{% endif %}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

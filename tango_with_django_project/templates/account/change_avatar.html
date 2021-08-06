@@ -10,7 +10,7 @@
             <div class="card-body">
                 <div class="text-center">
                     <h5>Current avatar</h5>
-                    <img class="img-thumbnail" src="{{ MEDIA_URL }}{{ request.user.userprofile.picture }}">
+                    <img class="img-thumbnail" src="{{ MEDIA_URL }}{{ request.user.userprofile.picture }}" alt="Not found avatar">
                 </div>
                 <form enctype="multipart/form-data" method="post" action="{% url 'account:change_avatar' %}">
                     {% csrf_token %}

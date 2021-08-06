@@ -14,6 +14,9 @@ from rango import models as rango_models
 
 
 # Create your views here.
+from rango.models import UserProfile
+
+
 @login_required
 def index(request):
     return render(request, 'account/index.html')
@@ -46,8 +49,10 @@ class ChangeAvatarView(LoginRequiredMixin, View):
         from account.utils.reset_filename import custom_file_name
         file_obj.name = custom_file_name(file_obj)
 
-        request.user.avatar = file_obj
-        request.user.save()
+        user_profile_obj, created = rango_models.UserProfile.objects.get_or_create(user=request.user)
+        user_profile_obj.avatar = file_obj
+        user_profile_obj.save()
+
         print(request.user)
         return HttpResponse("Change Success")
 

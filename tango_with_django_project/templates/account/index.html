@@ -4,16 +4,23 @@
 {% block title_block %}
     Account
 {% endblock %}
+{% block css %}
+    <style>
+        .span-pointer{
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
 
 {% block content_block %}
     <div class="container">
         <div class="card shadow mt-2">
             <div class="card-body">
-                <h4 class="text-center" style="margin-bottom: 20px;">Information</h4>
+                <h4 class="text-center mb-4">Information</h4>
                 <div class="row">
                     <div class="col-md-6 d-flex justify-content-center border-right">
                         <div class="d-flex justify-content-center flex-column text-center">
-                            <img style="margin: auto" width="80" height="80"
+                            <img class="m-auto" width="80" height="80"
                                  src="{{ MEDIA_URL }}{{ request.user.userprofile.picture }}" alt="not found avatar">
                             <span class="text-primary">Email: {{ request.user.email }}</span>
                             <button class="btn btn-primary btn-sm" onclick="changeAvatar()">Change Avatar</button>
@@ -29,12 +36,10 @@
                                 {% else %}
                                     Not set
                                 {% endif %}</span>
-                                    <span class="text-primary ml-3 mt-2" onclick="changeUsername()"
-                                          style="cursor: pointer">Change</span>
+                                    <span class="text-primary ml-3 mt-2 span-pointer" onclick="changeUsername()">Change</span>
                                 </p>
                                 <p>Password：
-                                    <span class="text-primary ml-3 mt-2" onclick="changePassword()"
-                                          style="cursor: pointer">Change</span>
+                                    <span class="text-primary ml-3 mt-2 span-pointer" onclick="changePassword()">Change</span>
                                 </p>
                                 <p><a class="text-primary mt-2" href="{% url 'account:manage_pages' %}">Manage My Pages</a>
                                 </p>
