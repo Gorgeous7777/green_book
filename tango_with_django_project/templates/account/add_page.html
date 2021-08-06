@@ -2,8 +2,7 @@
 {% block title %}
     Add Page
 {% endblock %}
-
-{% block content_block %}
+{% block css %}
     <style>
         label {
             font-size: 17px;
@@ -21,6 +20,9 @@
             color: #ffc12e;
         }
     </style>
+{% endblock %}
+{% block content_block %}
+
     <div class="container mt-4">
         <div class="card shadow mt-2">
             <div class="card-body">
@@ -34,7 +36,7 @@
                         {% csrf_token %}
                         {{ form.non_field_errors }}
                         {% for field in form %}
-                            <div class="form-inline form-group w-100" style="position:relative">
+                            <div class="form-inline form-group w-100">
                                 {{ field.label_tag }}
                                 {{ field }}
                                 {% if field.help_text %}

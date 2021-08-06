@@ -4,12 +4,19 @@
 {% block title_block %}
     Site Message
 {% endblock %}
+{% block css %}
+    <style>
+        .td-options{
+            width: 160px;
+        }
+    </style>
+{% endblock %}
 
 {% block content_block %}
     <div class="container">
         <div class="card shadow mt-2">
             <div class="card-body">
-                <h4 class="text-center" style="margin-bottom: 20px;">Site Message</h4>
+                <h4 class="text-center mb-4">Site Message</h4>
                 <div class="row justify-content-end m-1">
                     <a class="btn btn-outline-primary" href="{% url 'account:send_message' %}">Send</a>
                 </div>
@@ -34,7 +41,7 @@
                                     <td>{{ msg.verb }}</td>
                                     <td>{{ msg.timestamp|date:"Y-m-d H:i" }}</td>
 
-                                    <td style="width: 160px;"><button class="btn btn-sm btn-outline-success mr-1" onclick="update_mail({{ msg.id }})">Read</button>
+                                    <td class="td-options"><button class="btn btn-sm btn-outline-success mr-1" onclick="update_mail({{ msg.id }})">Read</button>
                                         <a class="btn btn-sm btn-outline-primary ml-1" href="{% url 'account:send_message' %}?receiver={{ msg.actor.email }}">Receive</a>
                                 </tr>
                             {% endfor %}
@@ -45,7 +52,7 @@
                                     <td>{{ msg.verb }}</td>
                                     <td>{{ msg.timestamp|date:"Y-m-d H:i" }}</td>
 
-                                    <td style="width: 160px;">
+                                    <td class="td-options">
                                         <a class="btn btn-sm btn-outline-primary ml-1" href="{% url 'account:send_message' %}?receiver={{ msg.actor.email }}">Receive</a>
                                 </tr>
                             {% endfor %}
