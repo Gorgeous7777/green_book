@@ -13,7 +13,7 @@ Unknown Category
 <div class="container">
     <div class="card shadow mt-2">
         <div class="card-body">
-            <div style="text-align: center">
+            <div class="text-center">
                 {% if pages %}
                 <h1>{{ pages.title }}</h1>
                 {% else %}
@@ -40,7 +40,7 @@ Unknown Category
                 <div class="col-md-6 d-flex flex-column">
                     <div class="d-flex justify-content-center flex-column text-center">
                         <div class="d-flex flex-column text-left">
-                            <img style="margin: auto" width="400" height="400"
+                            <img class="m-auto" width="400" height="400"
                                  src="{{ MEDIA_URL }}{{ pages.image }}" alt="not found avatar">
 
                         </div>
@@ -64,7 +64,7 @@ Unknown Category
                 <ul>
                     <li>{{ tie.user.username }} || {{ tie.user.email }} </li>
                     <li>Comment: {{ tie.comment }}</li>
-                    <div style="text-align: right">{{ tie.time }}</div>
+                    <li class="text-right list-unstyled">{{ tie.time }}</li>
 
                 </ul>
                 <hr>
@@ -72,7 +72,7 @@ Unknown Category
             {% endfor %}
 
 
-            <div style="text-align:center">
+            <div class="text-center">
 
                 {% if user.is_authenticated %}
                 <li><a type="button" class="btn btn-primary btn-lg" href="{% url 'account:add_page' %}">Add Page</a>

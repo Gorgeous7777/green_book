@@ -15,8 +15,16 @@
     {% block css %}
 
     {% endblock %}
+    <style>
+        body{
+            min-width: 830px;
+        }
+        .dropdown-menu{
+             min-width: 100px;
+        }
+    </style>
 </head>
-<body style="min-width:830px;">
+<body>
 {% block nav %}
     {% include 'rango/navbar.html' %}
     <hr/>

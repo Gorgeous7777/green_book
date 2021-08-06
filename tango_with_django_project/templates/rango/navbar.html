@@ -24,7 +24,7 @@
             <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <ul class="nav navbar-nav navbar-right" style="margin-right: 40px;">
+        <ul class="nav navbar-nav navbar-right mr-4">
             {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown {% if activeTag == 'account' %}active {% endif %}">
                     <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown"
@@ -32,7 +32,7 @@
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         User，{{ request.user.email }}
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 100px;">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'account:index' %}">Account</a>
                         <a class="dropdown-item" href="{% url 'account:manage_pages' %}">Manage Pages</a>
                         <a class="dropdown-item" href="{% url 'account:site_message' %}">Site Message{% if unread_count %}<span class="badge badge-danger">{{ unread_count }}</span></a>

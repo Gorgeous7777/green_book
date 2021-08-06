@@ -2,32 +2,32 @@
 {% load staticfiles %}
 
 {% block title_block %}
-{% if category %}
-{{ category.name }}
-{% else %}
-Unknown Category
-{% endif %}
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        Unknown Category
+    {% endif %}
 {% endblock %}
 
 {% block body_block %}
 
 
-{% for cat in categories %}
-<h1>{{ cat }}</h1>
-{% for page in pages %}
-{% if page.category == cat %}
-{% if page.is_show != False%}
-<li>
-    <a href="{% url 'rango:show_page' page.category.slug page.id %}">{{ page.title }}</a>
-</li>
-<li>
-    Author is :{{page.user}} and his/her email is {{page.user.email}}
-</li>
-{% else %}
-{% endif %}
-{% endif %}
+    {% for cat in categories %}
+        <h1>{{ cat }}</h1>
+        {% for page in pages %}
+            {% if page.category == cat %}
+                {% if page.is_show != False %}
+                    <li>
+                        <a href="{% url 'rango:show_page' page.category.slug page.id %}">{{ page.title }}</a>
+                    </li>
+                    <li>
+                        Author is :{{ page.user }} and his/her email is {{ page.user.email }}
+                    </li>
+                {% else %}
+                {% endif %}
+            {% endif %}
 
-{% endfor %}
-<hr>
-{% endfor %}
+        {% endfor %}
+        <hr>
+    {% endfor %}
 {% endblock %}

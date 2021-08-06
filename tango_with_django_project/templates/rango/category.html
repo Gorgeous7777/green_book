@@ -30,7 +30,7 @@ Unknown Category
 {% else %}
 <strong>No pages currently in category.</strong>
 {% endif %}
-<div style="text-align:center">
+<div class="text-center">
 
     {% if user.is_authenticated %}
     <li><a type="button" class="btn btn-primary btn-lg" href="{% url 'account:add_page' %}">Add Page</a></li>
