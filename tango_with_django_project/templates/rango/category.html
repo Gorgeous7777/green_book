@@ -15,13 +15,16 @@ Unknown Category
 {% if pages %}
 <ul>
     {% for page in pages %}
+    {% if page.is_show != False%}
     <li>
         <a href="{% url 'rango:show_page' page.category.slug page.id %}">{{ page.title }}</a>
     </li>
+
     <li>
         Author is :{{page.user}} and his/her email is {{page.user.email}}
     </li>
     <hr>
+    {% endif %}
     {% endfor %}
 </ul>
 {% else %}
