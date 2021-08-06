@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango_with_django_project.settings')
@@ -6,6 +7,7 @@ import django
 
 django.setup()
 from rango.models import Category, Page
+from django.contrib.auth.models import User
 
 
 def populate():
@@ -113,8 +115,8 @@ def populate():
             'Toys': {'pages': toys, 'views': 0, 'likes': 0},
             'Books': {'pages': books, 'views': 0, 'likes': 0},
             }
-
-
+    users = {'password': 'greenbook', 'username': '2516125g', 'email': '2516125g@gmail.com'}
+    add_user(users['password'],users['username'],users['email'])
 
     for cat, cat_data in cats.items():
         c = add_cat(cat, views=cat_data['views'], likes=cat_data['likes'])
@@ -139,8 +141,17 @@ def add_cat(name, views, likes):
     c = Category.objects.get_or_create(name=name, likes=likes, views=views)[0]
     c.save()
     return c
+def add_user(password, username, email):
+    c = User.objects.get_or_create(password=password, username=username, email=email)[0]
+    c.save()
+    return c
 
 
 if __name__ == '__main__':
     print('Starting Rango population script...')
-    populate()
+    try:
+        populate()
+    except:
+        print('You need to create a user/superuser at first!')
+
+

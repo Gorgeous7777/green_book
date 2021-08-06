@@ -155,11 +155,14 @@ def show_category(request, category_name_slug):
 def show_page(request, category_name_slug, page_id):
     # Create a context dictionary which we can pass
     # to the template rendering engine.
-    visits = int(get_server_side_cookie(request, 'visits', '1'))
     last_visit_cookie = get_server_side_cookie(request, 'last_visit', '2021-08-01 00:00:00.000000')
     last_visit_time = datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
     last_visit_page_cookie = get_server_side_cookie(request, 'last_page', 0)
-
+    visited_page_cookie = get_server_side_cookie(request, 'visited_page', 'Empty')
+    try:
+        print(request.session['visited_page'])
+    except:
+        request.session['visited_page'] = '0'
     user_id = request.user
     context_dict = {}
     try:
@@ -167,10 +170,12 @@ def show_page(request, category_name_slug, page_id):
         print(page_id)
         category = Category.objects.get(id=pages.category_id)
         users = User.objects.get(username=user_id)
-        if ((datetime.now() - last_visit_time).days > 0) | (last_visit_page_cookie != page_id):
+
+        if ((datetime.now() - last_visit_time).days > 0) | ((last_visit_page_cookie != page_id) & (pages.title not in str(visited_page_cookie))):
             pages.views = pages.views + 1
             request.session['last_visit'] = str(datetime.now())
             request.session['last_page'] = page_id
+            request.session['visited_page'] = str(request.session['visited_page']) + pages.title
             pages.save()
         context_dict['pages'] = pages
         context_dict['category'] = category
